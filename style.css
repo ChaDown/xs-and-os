@@ -1,0 +1,12 @@
+.game-board {
+  margin-left: calc((100vw - 300px) / 2);
+  margin-top: calc((100vh - 300px) / 2);
+  display: grid;
+  grid-template: 100px 100px 100px / 100px 100px 100px;
+}
+
+.grid {
+  border: 1px solid black;
+  text-align: center;
+  font-size: 50px;
+}
