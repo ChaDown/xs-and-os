@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Libre+Baskerville&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Aboreto&family=Libre+Baskerville&display=swap");
 
 :root {
   font-family: "Hachi Maru Pop", sans-serif;
@@ -11,6 +11,17 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.header {
+  font-family: "Aboreto", sans-serif;
+  margin-bottom: 50px;
+  font-size: 2rem;
+  height: 40px;
+}
+
+.fade-out {
+  animation: fadeOut 2s;
 }
 
 .game-board {
@@ -94,6 +105,15 @@ body {
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

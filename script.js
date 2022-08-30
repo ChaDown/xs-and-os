@@ -1,6 +1,7 @@
 "use strict";
 const gameDisplay = document.querySelector(".game-board");
 const gridElArr = document.querySelectorAll(".grid");
+const header = document.querySelector(".header");
 
 const gameBoard = (() => {
   // create scoreArr
@@ -51,6 +52,7 @@ const gameBoard = (() => {
 
       gridElement.addEventListener("click", function (e) {
         if (!e.target.textContent && !checkWin()) {
+          header.textContent = "";
           e.target.classList.add("fade-in");
           scoreArr[e.target.dataset.index] = checkActive().mark;
           renderScore();
@@ -81,19 +83,26 @@ const gameBoard = (() => {
     for (const el of winArray) {
       if (el.every((val) => XsArray.includes(val))) {
         displayController.addColorWin(el);
-        return player1;
+        displayController.displayWinMsg("X");
+        return "X";
       }
 
       if (el.every((val) => OsArray.includes(val))) {
         displayController.addColorWin(el);
-        return player2;
+        displayController.displayWinMsg("O");
+
+        return "O";
       }
     }
 
     //check for draw
 
     const filteredArray = scoreArr.filter((el) => el !== undefined);
-    if (filteredArray.length === 9) return "draw";
+    if (filteredArray.length === 9) {
+      displayController.displayWinMsg("X");
+
+      return "draw";
+    }
   };
 
   const resetBtn = document.querySelector(".reset");
@@ -136,5 +145,15 @@ const displayController = (() => {
     }
   };
 
-  return { displayReset, addColorWin };
+  const printHeader = function (str) {
+    header.textContent = str;
+  };
+
+  const displayWinMsg = function (winner) {
+    if (winner === "X") printHeader("X is the winner! Another game?");
+    if (winner === "O") printHeader("O is the winner! Another game?");
+    if (winner === "draw") printHeader("It's a draw! Another game?");
+  };
+
+  return { displayReset, addColorWin, displayWinMsg };
 })();
