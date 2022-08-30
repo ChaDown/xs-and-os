@@ -26,10 +26,10 @@ const gameBoard = (() => {
     [6, 7, 8],
   ];
 
-  const renderScore = function (arr) {
-    for (let i = 0; i < arr.length; i++) {
+  const renderScore = function () {
+    for (let i = 0; i < scoreArr.length; i++) {
       const gridElement = document.querySelector(`.grid-${i}`);
-      gridElement.textContent = arr[i];
+      gridElement.textContent = scoreArr[i];
     }
   };
 
@@ -50,10 +50,12 @@ const gameBoard = (() => {
 
       gridElement.addEventListener("click", function (e) {
         if (!e.target.textContent && !checkWin()) {
+          e.target.classList.add("fade-in");
           scoreArr[e.target.dataset.index] = checkActive().mark;
-          renderScore(scoreArr);
+          renderScore();
           checkWin();
           toggleActive();
+          displayController.displayReset();
         }
       });
     }
@@ -77,14 +79,45 @@ const gameBoard = (() => {
       if (el.every((val) => XsArray.includes(val))) return player1;
       if (el.every((val) => OsArray.includes(val))) return player2;
     }
+
+    //check for draw
+
+    const filteredArray = scoreArr.filter((el) => el !== undefined);
+    if (filteredArray.length === 9) return "draw";
   };
 
-  return { checkWin, scoreArr, player1, player2 };
+  const resetBtn = document.querySelector(".reset");
+
+  // remove fade in function
+  const removeFade = function () {
+    for (let i = 0; i < scoreArr.length; i++) {
+      const gridElement = document.querySelector(`.grid-${i}`);
+      gridElement.classList.remove("fade-in");
+    }
+  };
+
+  const resetGame = function () {
+    resetBtn.addEventListener("click", function () {
+      console.log(scoreArr);
+      const newArray = new Array(9);
+      scoreArr = newArray;
+      gameBoard.renderScore();
+      resetBtn.classList.toggle("show-reset");
+      removeFade();
+    });
+  };
+
+  resetGame();
+
+  return { checkWin, scoreArr, renderScore, player1, player2, resetBtn };
 })();
 
-// const displayController = (() => {
+const displayController = (() => {
+  const displayReset = function () {
+    if (gameBoard.checkWin()) {
+      gameBoard.resetBtn.classList.toggle("show-reset");
+    }
+  };
 
-//   renderScore(gameBoard.scoreArr);
-
-//   return { renderScore, markSelection };
-// })();
+  return { displayReset };
+})();
