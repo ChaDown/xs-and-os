@@ -1,5 +1,6 @@
 "use strict";
 const gameDisplay = document.querySelector(".game-board");
+const gridElArr = document.querySelectorAll(".grid");
 
 const gameBoard = (() => {
   // create scoreArr
@@ -75,9 +76,18 @@ const gameBoard = (() => {
     const XsArray = getIndexArr(scoreArr, "X");
     const OsArray = getIndexArr(scoreArr, "O");
 
+    // If every element of an element of the win array is in an X's or an O's array, then it will be a win situation)
+
     for (const el of winArray) {
-      if (el.every((val) => XsArray.includes(val))) return player1;
-      if (el.every((val) => OsArray.includes(val))) return player2;
+      if (el.every((val) => XsArray.includes(val))) {
+        displayController.addColorWin(el);
+        return player1;
+      }
+
+      if (el.every((val) => OsArray.includes(val))) {
+        displayController.addColorWin(el);
+        return player2;
+      }
     }
 
     //check for draw
@@ -98,12 +108,12 @@ const gameBoard = (() => {
 
   const resetGame = function () {
     resetBtn.addEventListener("click", function () {
-      console.log(scoreArr);
       const newArray = new Array(9);
       scoreArr = newArray;
       gameBoard.renderScore();
       resetBtn.classList.toggle("show-reset");
       removeFade();
+      gridElArr.forEach((el) => el.classList.remove("color-win"));
     });
   };
 
@@ -119,5 +129,12 @@ const displayController = (() => {
     }
   };
 
-  return { displayReset };
+  const addColorWin = function (arr) {
+    for (let i = 0; i < arr.length; i++) {
+      const gridEl = document.querySelector(`.grid-${arr[i]}`);
+      gridEl.classList.add("color-win");
+    }
+  };
+
+  return { displayReset, addColorWin };
 })();

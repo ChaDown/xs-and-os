@@ -96,3 +96,7 @@ body {
     opacity: 1;
   }
 }
+
+.color-win {
+  background-color: rgba(212, 250, 223, 0.374);
+}
