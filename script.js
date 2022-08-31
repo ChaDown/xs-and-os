@@ -106,30 +106,22 @@ const gameBoard = (() => {
 
   const resetBtn = document.querySelector(".reset");
 
-  // remove fade in function
-  const removeFade = function () {
-    for (let i = 0; i < scoreArr.length; i++) {
-      const gridElement = document.querySelector(`.grid-${i}`);
-      gridElement.classList.remove("fade-in");
-    }
-  };
-
   const resetGame = function () {
     const gridElArr = document.querySelectorAll(".grid");
 
     resetBtn.addEventListener("click", function () {
       const newArray = new Array(9);
       scoreArr = newArray;
-      gameBoard.renderScore();
+      renderScore();
       resetBtn.classList.toggle("show-reset");
-      removeFade();
+      displayController.removeFade();
       gridElArr.forEach((el) => el.classList.remove("color-win"));
     });
   };
 
   resetGame();
 
-  return { checkWin, renderScore, resetBtn, header };
+  return { checkWin, scoreArr, resetBtn, header };
 })();
 
 const displayController = (() => {
@@ -156,5 +148,12 @@ const displayController = (() => {
     if (winner === "draw") printHeader("It's a draw! Another game?");
   };
 
-  return { displayReset, addColorWin, displayWinMsg };
+  const removeFade = function () {
+    for (let i = 0; i < gameBoard.scoreArr.length; i++) {
+      const gridElement = document.querySelector(`.grid-${i}`);
+      gridElement.classList.remove("fade-in");
+    }
+  };
+
+  return { displayReset, addColorWin, displayWinMsg, removeFade };
 })();
