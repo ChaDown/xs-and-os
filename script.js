@@ -1,10 +1,9 @@
 "use strict";
-const gameDisplay = document.querySelector(".game-board");
-const gridElArr = document.querySelectorAll(".grid");
-const header = document.querySelector(".header");
 
 const gameBoard = (() => {
+  const header = document.querySelector(".header");
   // create scoreArr
+
   let scoreArr = new Array(9);
 
   // Create 2 Players
@@ -116,6 +115,8 @@ const gameBoard = (() => {
   };
 
   const resetGame = function () {
+    const gridElArr = document.querySelectorAll(".grid");
+
     resetBtn.addEventListener("click", function () {
       const newArray = new Array(9);
       scoreArr = newArray;
@@ -128,7 +129,7 @@ const gameBoard = (() => {
 
   resetGame();
 
-  return { checkWin, scoreArr, renderScore, player1, player2, resetBtn };
+  return { checkWin, renderScore, resetBtn, header };
 })();
 
 const displayController = (() => {
@@ -146,7 +147,7 @@ const displayController = (() => {
   };
 
   const printHeader = function (str) {
-    header.textContent = str;
+    gameBoard.header.textContent = str;
   };
 
   const displayWinMsg = function (winner) {
