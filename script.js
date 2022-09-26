@@ -98,7 +98,7 @@ const gameBoard = (() => {
 
     const filteredArray = scoreArr.filter((el) => el !== undefined);
     if (filteredArray.length === 9) {
-      displayController.displayWinMsg("X");
+      displayController.displayWinMsg("draw");
 
       return "draw";
     }
